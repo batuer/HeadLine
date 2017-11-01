@@ -25,7 +25,16 @@ public class HeadLineItemTab extends FrameLayout {
   }
 
   public void setSelectedChange(boolean selectedChange) {
-    mTabPre.setVisibility(selectedChange ? VISIBLE : GONE);
+    int visibility = mTabPre.getVisibility();
+    if (selectedChange) {
+      if (visibility == GONE) {
+        mTabPre.setVisibility(VISIBLE);
+      }
+    } else {
+      if (visibility == VISIBLE) {
+        mTabPre.setVisibility(GONE);
+      }
+    }
   }
 
   void addViews(View view, View view1) {

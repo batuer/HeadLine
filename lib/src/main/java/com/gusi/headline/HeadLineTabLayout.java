@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -111,34 +110,35 @@ public class HeadLineTabLayout extends TabLayout {
 
     }
   }
+
   /**
    * @author LC
    */
   private class PagerListener implements ViewPager.OnPageChangeListener {
-    private static final int SCROLL_STATE_IDLE = 0;
-    private static final int SCROLL_STATE_DRAGGING = 1;
-    private static final int SCROLL_STATE_SETTLING = 2;
 
     private float mLastOffset = 0;
-    private int mLaseSelected = 0;
-    private int mL = 0;
-    private int mC = 0;
+
+    private int mL = 0; //Last Scroll State
+    private int mC = 0; //Current Scroll State
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-      Log.w("Fire", mC + ":-Last-:" + mL);
+
       if (mC == 0 || (positionOffset == 0 || positionOffset == 1)) {
-        //unSelected
-        Tab unSelectedTab = getTabAt(mLaseSelected);
-        HeadLineItemTab unSelectedItemTab = (HeadLineItemTab) unSelectedTab.getCustomView();
-        unSelectedItemTab.setSelectedChange(false);
         //selected
         int selectedTabPosition = getSelectedTabPosition();
         Tab selectedTab = getTabAt(selectedTabPosition);
         HeadLineItemTab selectedItemTab = (HeadLineItemTab) selectedTab.getCustomView();
         selectedItemTab.setSelectedChange(true);
 
-        mLaseSelected = selectedTabPosition;
+        int tabCount = getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+          if (i == selectedTabPosition) continue;
+          //unSelected
+          Tab unSelectedTab = getTabAt(i);
+          HeadLineItemTab unSelectedItemTab = (HeadLineItemTab) unSelectedTab.getCustomView();
+          unSelectedItemTab.setSelectedChange(false);
+        }
       } else if (mC == 1 || mL == 1) { //只处理手势拖动
         float diffOffset = mLastOffset - positionOffset;
         if (positionOffset < MIN_SCROLL || (1 - positionOffset) < MIN_SCROLL
@@ -170,11 +170,11 @@ public class HeadLineTabLayout extends TabLayout {
         }
       }
 
-      if (mC == 0) {
+      if (mC == 0) { //重置
         mC = 0;
         mL = 0;
       }
-      if (mC == 1) {
+      if (mC == 1) { //记录上一次
         mL = 1;
       }
     }
