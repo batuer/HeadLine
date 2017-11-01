@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private List<String> initData() {
-    ArrayList<String> list = new ArrayList<>(15);
-    for (int i = 0; i < 15; i++) {
+    ArrayList<String> list = new ArrayList<>(10);
+    for (int i = 0; i < 10; i++) {
       list.add("Item: " + i);
     }
     return list;

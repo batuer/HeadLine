@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 
 /**
  * Created by batue on 2017/10/31.
+ *
+ * @author LC
  */
 
 public class HeadLineTabTabPre extends LinearLayout {
@@ -53,7 +55,7 @@ public class HeadLineTabTabPre extends LinearLayout {
   }
 
   @Override public void setVisibility(int visibility) {
-    super.setVisibility(visibility);
     this.mIsClip = false;
+    super.setVisibility(visibility);
   }
 }
