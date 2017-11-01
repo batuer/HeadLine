@@ -3,11 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HeadLine.iml" filepath="$PROJECT_DIR$/HeadLine.iml" />
-      <module fileurl="file://D:\as_project\HeadLine\Headline.iml" filepath="D:\as_project\HeadLine\Headline.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\as_project\HeadLine\app\app.iml" filepath="D:\as_project\HeadLine\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
-      <module fileurl="file://D:\as_project\HeadLine\lib\lib.iml" filepath="D:\as_project\HeadLine\lib\lib.iml" />
     </modules>
   </component>
 </project>

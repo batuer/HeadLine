@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,7 +20,7 @@ import android.widget.TextView;
  */
 
 public class HeadLineTabLayout extends TabLayout {
-  private static final double MIN_SCROLL = 0.05;
+  private static final double MIN_SCROLL = 0.02;
   private ViewPager mViewPager;
   private int mBgLayout;
   private int mPreLayout;
@@ -39,9 +40,6 @@ public class HeadLineTabLayout extends TabLayout {
     try {
       mBgLayout = a.getInt(R.styleable.HeadLineTabLayout_tab_item_bg, -1);
       mPreLayout = a.getInt(R.styleable.HeadLineTabLayout_tab_item_pre, -1);
-      //if (mBgLayout == -1 || mPreLayout == -1) {
-      //  throw new IllegalArgumentException("not layout res");
-      //}
     } finally {
       a.recycle();
     }
@@ -113,20 +111,23 @@ public class HeadLineTabLayout extends TabLayout {
 
     }
   }
-
   /**
    * @author LC
    */
   private class PagerListener implements ViewPager.OnPageChangeListener {
+    private static final int SCROLL_STATE_IDLE = 0;
+    private static final int SCROLL_STATE_DRAGGING = 1;
+    private static final int SCROLL_STATE_SETTLING = 2;
 
     private float mLastOffset = 0;
     private int mLaseSelected = 0;
-    private int mLastScrollState = ViewPager.SCROLL_STATE_IDLE;
+    private int mL = 0;
+    private int mC = 0;
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-      if ((positionOffset == 0 || positionOffset == 1)) {
+      Log.w("Fire", mC + ":-Last-:" + mL);
+      if (mC == 0 || (positionOffset == 0 || positionOffset == 1)) {
         //unSelected
         Tab unSelectedTab = getTabAt(mLaseSelected);
         HeadLineItemTab unSelectedItemTab = (HeadLineItemTab) unSelectedTab.getCustomView();
@@ -138,14 +139,10 @@ public class HeadLineTabLayout extends TabLayout {
         selectedItemTab.setSelectedChange(true);
 
         mLaseSelected = selectedTabPosition;
-
-        mLastScrollState = ViewPager.SCROLL_STATE_IDLE;
-      } else if (mLastScrollState == ViewPager.SCROLL_STATE_DRAGGING) { //只处理手势拖动
+      } else if (mC == 1 || mL == 1) { //只处理手势拖动
         float diffOffset = mLastOffset - positionOffset;
         if (positionOffset < MIN_SCROLL || (1 - positionOffset) < MIN_SCROLL
             || Math.abs(diffOffset) > MIN_SCROLL) {
-
-          //Log.w("Fire", positionOffset + ":-Scrolled-:" + diffOffset);
           //mDiffOffset > 0  ViewPager 向左滑动(和手势相反)
           if (diffOffset > 0) {
             //position 是目标position
@@ -172,6 +169,14 @@ public class HeadLineTabLayout extends TabLayout {
           mLastOffset = positionOffset;
         }
       }
+
+      if (mC == 0) {
+        mC = 0;
+        mL = 0;
+      }
+      if (mC == 1) {
+        mL = 1;
+      }
     }
 
     @Override public void onPageSelected(int position) {
@@ -179,9 +184,7 @@ public class HeadLineTabLayout extends TabLayout {
     }
 
     @Override public void onPageScrollStateChanged(int state) {
-      if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-        this.mLastScrollState = state;
-      }
+      this.mC = state;
     }
   }
 }
