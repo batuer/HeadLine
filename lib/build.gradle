@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
   compileSdkVersion 25
@@ -9,7 +10,7 @@ android {
     versionCode 1
     versionName "1.0"
 
-    //    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes {
@@ -18,27 +19,15 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
-  tasks.whenTaskAdded { task ->
-    if (//        task.name.contains("lint")
-    //        || task.name.equals("clean")
-    //        //如果项目中有用到aidl则不可以舍弃这个任务
-    //        ||
-    //        task.name.contains("Aidl")
-    //        //用不到测试的时候就可以先关闭
-    //        ||
-    //        task.name.contains("mockableAndroidJar")
-    task.name.contains("UnitTest") || task.name.contains("AndroidTest")
-    //用不到NDK和JNI的也关闭掉
-    //        || task.name.contains("Ndk")
-    //        || task.name.contains("Jni")
-    ) {
-      task.enabled = false
-    }
-  }
+
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
+  testCompile 'junit:junit:4.12'
 
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile 'com.android.support:design:25.3.1'
