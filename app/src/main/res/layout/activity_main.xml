@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
 
-
   <com.gusi.headline.HeadLineTabLayout
       android:id="@+id/tabLayout"
       android:layout_width="match_parent"
@@ -14,7 +13,8 @@
       android:background="@android:color/white"
       app:tabIndicatorHeight="0dp"
       app:tabMode="scrollable"
-     />
+      app:tab_item_bg="@layout/item_tab_bg"
+      app:tab_item_pre="@layout/item_tab_pre" />
 
   <android.support.v4.view.ViewPager
       android:id="@+id/pager"

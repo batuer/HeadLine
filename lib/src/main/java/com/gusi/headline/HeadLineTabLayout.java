@@ -37,17 +37,13 @@ public class HeadLineTabLayout extends TabLayout {
   private void init(Context context, AttributeSet attrs) {
     TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HeadLineTabLayout);
     try {
-      mBgLayout = a.getInt(R.styleable.HeadLineTabLayout_tab_item_bg, -1);
-      mPreLayout = a.getInt(R.styleable.HeadLineTabLayout_tab_item_pre, -1);
+      mBgLayout = a.getResourceId(R.styleable.HeadLineTabLayout_tab_item_bg, 0);
+      mPreLayout = a.getResourceId(R.styleable.HeadLineTabLayout_tab_item_pre, 0);
     } finally {
       a.recycle();
     }
   }
 
-  //@Override public void setupWithViewPager(@Nullable ViewPager viewPager) {
-  //  super.setupWithViewPager(viewPager);
-  //  setupPager(viewPager);
-  //}
 
   @Override public void setupWithViewPager(@Nullable ViewPager viewPager, boolean autoRefresh) {
     super.setupWithViewPager(viewPager, autoRefresh);
@@ -91,23 +87,6 @@ public class HeadLineTabLayout extends TabLayout {
         }
         tab.setCustomView(itemTab);
       }
-
-      //切换Tab ViewPager 不滑动
-      //clearOnTabSelectedListeners();
-      //addOnTabSelectedListener(new OnTabSelectedListener() {
-      //  @Override public void onTabSelected(Tab tab) {
-      //    int position = tab.getPosition();
-      //    mViewPager.setCurrentItem(position, false);
-      //  }
-      //
-      //  @Override public void onTabUnselected(Tab tab) {
-      //  }
-      //
-      //  @Override public void onTabReselected(Tab tab) {
-      //
-      //  }
-      //});
-
     }
   }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="HeadLineTabLayout">
-    <attr name="tab_item_bg" format="integer"/>
-    <attr name="tab_item_pre" format="integer"/>
+    <attr name="tab_item_bg" format="reference"/>
+    <attr name="tab_item_pre" format="reference"/>
   </declare-styleable>
 
 </resources>
