@@ -5,12 +5,14 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by batue on 2017/10/31.
@@ -37,18 +39,18 @@ public class HeadLineTabLayout extends TabLayout {
     try {
       mBgLayout = a.getInt(R.styleable.HeadLineTabLayout_tab_item_bg, -1);
       mPreLayout = a.getInt(R.styleable.HeadLineTabLayout_tab_item_pre, -1);
-      if (mBgLayout == -1 || mPreLayout == -1) {
-        throw new IllegalArgumentException("not layout res");
-      }
+      //if (mBgLayout == -1 || mPreLayout == -1) {
+      //  throw new IllegalArgumentException("not layout res");
+      //}
     } finally {
       a.recycle();
     }
   }
 
-  @Override public void setupWithViewPager(@Nullable ViewPager viewPager) {
-    super.setupWithViewPager(viewPager);
-    setupPager(viewPager);
-  }
+  //@Override public void setupWithViewPager(@Nullable ViewPager viewPager) {
+  //  super.setupWithViewPager(viewPager);
+  //  setupPager(viewPager);
+  //}
 
   @Override public void setupWithViewPager(@Nullable ViewPager viewPager, boolean autoRefresh) {
     super.setupWithViewPager(viewPager, autoRefresh);
@@ -60,15 +62,36 @@ public class HeadLineTabLayout extends TabLayout {
       mViewPager = viewPager;
       mViewPager.addOnPageChangeListener(new PagerListener());
 
-      LayoutInflater inflater = LayoutInflater.from(getContext());
+      Context context = getContext();
+      LayoutInflater inflater = LayoutInflater.from(context);
 
+      int matchParent = ViewGroup.LayoutParams.MATCH_PARENT;
+      LayoutParams params = new LayoutParams(matchParent, matchParent, Gravity.CENTER);
       PagerAdapter adapter = viewPager.getAdapter();
       int count = adapter.getCount();
       for (int i = 0; i < count; i++) {
         TabLayout.Tab tab = getTabAt(i);
-        HeadLineItemTab itemTab = new HeadLineItemTab(getContext());
-        itemTab.addView(inflater.inflate(mBgLayout,null));
-        itemTab.addView(inflater.inflate(mPreLayout,null));
+        HeadLineItemTab itemTab = new HeadLineItemTab(context);
+        if (mBgLayout == -1 || mPreLayout == -1) {
+          CharSequence title = adapter.getPageTitle(i);
+          TextView tvBg = new TextView(context);
+          tvBg.setTextColor(Color.BLACK);
+          tvBg.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+          tvBg.setText(title);
+          tvBg.setGravity(Gravity.CENTER);
+          tvBg.setLayoutParams(params);
+
+          TextView tvPre = new TextView(context);
+          tvPre.setTextColor(Color.parseColor("#0fffff"));
+          tvPre.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+          tvPre.setText(title);
+          tvPre.setGravity(Gravity.CENTER);
+          tvPre.setLayoutParams(params);
+
+          itemTab.addViews(tvBg, tvPre);
+        } else {
+          itemTab.addViews(inflater.inflate(mBgLayout, null), inflater.inflate(mPreLayout, null));
+        }
         tab.setCustomView(itemTab);
       }
 
@@ -103,8 +126,6 @@ public class HeadLineTabLayout extends TabLayout {
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-      Log.e("FireScroll", mLastScrollState + ":-mLastScrollState-:");
-
       if ((positionOffset == 0 || positionOffset == 1)) {
         //unSelected
         Tab unSelectedTab = getTabAt(mLaseSelected);
@@ -119,10 +140,12 @@ public class HeadLineTabLayout extends TabLayout {
         mLaseSelected = selectedTabPosition;
 
         mLastScrollState = ViewPager.SCROLL_STATE_IDLE;
-      } else if (mLastScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
+      } else if (mLastScrollState == ViewPager.SCROLL_STATE_DRAGGING) { //只处理手势拖动
         float diffOffset = mLastOffset - positionOffset;
         if (positionOffset < MIN_SCROLL || (1 - positionOffset) < MIN_SCROLL
             || Math.abs(diffOffset) > MIN_SCROLL) {
+
+          //Log.w("Fire", positionOffset + ":-Scrolled-:" + diffOffset);
           //mDiffOffset > 0  ViewPager 向左滑动(和手势相反)
           if (diffOffset > 0) {
             //position 是目标position
@@ -139,11 +162,11 @@ public class HeadLineTabLayout extends TabLayout {
             //ViewPager 向右滑动  position 是当前position
             TabLayout.Tab tab = getTabAt(position);
             HeadLineItemTab itemTab = (HeadLineItemTab) tab.getCustomView();
-            itemTab.clipPercent(positionOffset, ClipTextView.RIGHT);
+            itemTab.clipPercent(positionOffset, HeadLineTabTabPre.RIGHT);
             //后边的
             TabLayout.Tab tabRight = getTabAt(position + 1);
             HeadLineItemTab itemTabRight = (HeadLineItemTab) tabRight.getCustomView();
-            itemTabRight.clipPercent(positionOffset, ClipTextView.LEFT);
+            itemTabRight.clipPercent(positionOffset, HeadLineTabTabPre.LEFT);
           }
 
           mLastOffset = positionOffset;

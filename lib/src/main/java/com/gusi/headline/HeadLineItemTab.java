@@ -2,6 +2,7 @@ package com.gusi.headline;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.FrameLayout;
 
 /**
@@ -9,8 +10,7 @@ import android.widget.FrameLayout;
  */
 
 public class HeadLineItemTab extends FrameLayout {
-  private static final int TAB_PRE_TAG = 100;
-  private boolean mSelectedChange;
+  private HeadLineTabTabPre mTabPre;
 
   public HeadLineItemTab(@NonNull Context context) {
     super(context);
@@ -18,15 +18,27 @@ public class HeadLineItemTab extends FrameLayout {
 
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
-    HeadLineTabTabPre tabPre = (HeadLineTabTabPre) findViewWithTag(TAB_PRE_TAG);
-
   }
 
   public void clipPercent(float positionOffset, int left) {
-
+    mTabPre.clipPercent(positionOffset, left);
   }
 
   public void setSelectedChange(boolean selectedChange) {
-    mSelectedChange = selectedChange;
+    mTabPre.setVisibility(selectedChange ? VISIBLE : GONE);
+  }
+
+  void addViews(View view, View view1) {
+    View viewById = findViewById(R.id.head_line_pre);
+    if (viewById == null) {
+      addView(view);
+      mTabPre = new HeadLineTabTabPre(getContext());
+      mTabPre.addView(view1);
+      mTabPre.setId(R.id.head_line_pre);
+      addView(mTabPre);
+      mTabPre.setVisibility(GONE);
+    } else {
+      mTabPre = (HeadLineTabTabPre) viewById;
+    }
   }
 }

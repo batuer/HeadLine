@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">lib</string>
+  <item name="head_line_pre" type="id" />
 </resources>
