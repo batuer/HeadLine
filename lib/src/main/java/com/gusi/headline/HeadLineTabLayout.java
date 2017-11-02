@@ -65,7 +65,7 @@ public class HeadLineTabLayout extends TabLayout {
       for (int i = 0; i < count; i++) {
         TabLayout.Tab tab = getTabAt(i);
         HeadLineItemTab itemTab = new HeadLineItemTab(context);
-        if (mBgLayout == -1 || mPreLayout == -1) {
+        if (mBgLayout == 0 || mPreLayout == 0) {
           CharSequence title = adapter.getPageTitle(i);
           TextView tvBg = new TextView(context);
           tvBg.setTextColor(Color.BLACK);

@@ -43,7 +43,7 @@ publish {
   userOrg = 'batuer'
   groupId = 'com.gusi'
   artifactId = 'HeadLineTab'
-  publishVersion = '1.0.0'
+  publishVersion = '1.0.1'
   desc = 'imitate HeadLine TabLayout'
   website = 'https://github.com/batuer/HeadLine'
 }

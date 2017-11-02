@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     HeadLineTabLayout tabLayout = (HeadLineTabLayout) findViewById(R.id.tabLayout);
+    HeadLineTabLayout tabLayout1 = (HeadLineTabLayout) findViewById(R.id.tabLayout1);
     ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+    ViewPager viewPager1 = (ViewPager) findViewById(R.id.pager1);
 
     final List<String> data = initData();
     final FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         return data.get(position);
       }
     };
+
+    //viewpager
     viewPager.setAdapter(adapter);
     tabLayout.setupWithViewPager(viewPager);
 
@@ -64,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
       tvBg.setText(titles[pos]);
       tvPre.setText(titles[pos]);
     }
+
+    //viewpager1
+    viewPager1.setAdapter(adapter);
+    tabLayout1.setupWithViewPager(viewPager1);
   }
 
   private List<String> initData() {

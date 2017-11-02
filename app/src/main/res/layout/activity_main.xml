@@ -3,22 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="2">
 
-
-  <com.gusi.headline.HeadLineTabLayout
-      android:id="@+id/tabLayout"
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="48dp"
-      android:background="@android:color/white"
-      app:tabIndicatorHeight="0dp"
-      app:tabMode="scrollable"
-      app:tab_item_bg="@layout/item_tab_bg"
-      app:tab_item_pre="@layout/item_tab_pre" />
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="vertical">
 
-  <android.support.v4.view.ViewPager
-      android:id="@+id/pager"
+    <com.gusi.headline.HeadLineTabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/white"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable"
+        app:tab_item_bg="@layout/item_tab_bg"
+        app:tab_item_pre="@layout/item_tab_pre" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#22000000" />
+  </LinearLayout>
+
+
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="#22000000" />
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="vertical">
+
+    <com.gusi.headline.HeadLineTabLayout
+        android:id="@+id/tabLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/white"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#22000000" />
+  </LinearLayout>
+
 </LinearLayout>
