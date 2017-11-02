@@ -2,6 +2,7 @@ package com.gusi.headline;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.widget.LinearLayout;
 
@@ -39,6 +40,7 @@ public class HeadLineTabTabPre extends LinearLayout {
       //在 裁剪出去的画布上绘制
       canvas.save();
       canvas.clipRect(left, 0, right, height);
+      canvas.drawColor(Color.parseColor("#00000000"));
       super.dispatchDraw(canvas);
       canvas.restore();
     }
