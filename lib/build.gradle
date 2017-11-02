@@ -1,16 +1,18 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.novoda.bintray-release' //https://github.com/novoda/bintray-release
 
 android {
   compileSdkVersion 25
-
+  lintOptions {
+    abortOnError false
+  }
   defaultConfig {
     minSdkVersion 19
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
 
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    //    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes {
@@ -19,16 +21,30 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
-
+  tasks.whenTaskAdded { task ->
+    if (task.name.contains("UnitTest") || task.name.contains("AndroidTest")) {
+      task.enabled = false
+    }
+  }
 }
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-  testCompile 'junit:junit:4.12'
+  //  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+  //    exclude group: 'com.android.support', module: 'support-annotations'
+  //  })
+  //  testCompile 'junit:junit:4.12'
 
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile 'com.android.support:design:25.3.1'
 }
+
+publish {
+  userOrg = 'batuer'
+  groupId = 'com.gusi'
+  artifactId = 'HeadLineTab'
+  publishVersion = '1.0.0'
+  desc = 'imitate HeadLine TabLayout'
+  website = 'https://github.com/batuer/HeadLine'
+}
+
